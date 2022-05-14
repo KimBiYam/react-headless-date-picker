@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "eslint-config-kimbiyam-react",
+    "eslint-config-kimbiyam-react/prettier",
+    "eslint-config-kimbiyam-react/typescript"
+  ]
+}
