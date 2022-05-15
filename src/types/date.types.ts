@@ -5,3 +5,8 @@ export interface Month {
   month: number;
   date: Date;
 }
+
+export interface Day {
+  label: string;
+  date: Date;
+}
