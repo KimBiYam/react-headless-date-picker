@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { FirstDayOfWeek } from '../types/date.types';
-import { getDays, getWeekdayLabels } from '../utils/day.util';
+import { isDisabled } from '../utils/day.util';
 import { useMonths } from './useMonths';
 
 export interface UseDatePickerProps {
@@ -41,6 +41,16 @@ export const useDatePicker = ({
     weekdayLabelFormat,
   });
 
+  const onDayClick = useCallback(
+    (date: Date) => onDateChange(date),
+    [onDateChange],
+  );
+
+  const isDisabledDate = useCallback(
+    (date: Date) => isDisabled({ date, unavailableDates, maxDate, minDate }),
+    [unavailableDates, maxDate, minDate],
+  );
+
   return {
     activatedMonths,
     goToPreviousMonth,
@@ -48,5 +58,7 @@ export const useDatePicker = ({
     goToDate,
     monthDays,
     weekdayLabels,
+    onDayClick,
+    isDisabledDate,
   };
 };

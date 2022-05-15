@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { getDays, getWeekdayLabels } from '../../utils/day.util';
+import { getDays, getWeekdayLabels, isDisabled } from '../../utils/day.util';
 
 describe('Day util', () => {
   describe('getDays', () => {
@@ -83,6 +83,46 @@ describe('Day util', () => {
         'Saturday',
       ];
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('isDisabled', () => {
+    it('should return false', () => {
+      // given
+      const date = new Date('2020/01/01');
+      const unavailableDates: Date[] = [];
+
+      // when
+      const result = isDisabled({ date, unavailableDates });
+
+      // then
+      expect(result).toBe(false);
+    });
+
+    it('should return true when is before minDate', () => {
+      // given
+      const date = new Date('2020/01/01');
+      const unavailableDates: Date[] = [];
+      const minDate = new Date('2020/01/02');
+
+      // when
+      const result = isDisabled({ date, unavailableDates, minDate });
+
+      // then
+      expect(result).toBe(true);
+    });
+
+    it('should return true when is after maxDate', () => {
+      // given
+      const date = new Date('2020/01/01');
+      const unavailableDates: Date[] = [];
+      const maxDate = new Date('2019/12/31');
+
+      // when
+      const result = isDisabled({ date, unavailableDates, maxDate });
+
+      // then
+      expect(result).toBe(true);
     });
   });
 });

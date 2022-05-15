@@ -7,15 +7,12 @@ import {
   getDay,
   startOfMonth,
   startOfWeek,
+  isAfter,
+  isBefore,
+  startOfDay,
+  isSameDay,
 } from 'date-fns';
 import { Day, FirstDayOfWeek } from '../types/date.types';
-
-interface GetDaysParams {
-  year: number;
-  month: number;
-  firstDayOfWeek: FirstDayOfWeek;
-  dayLabelFormat?: (date: Date) => string;
-}
 
 const getPrevMonthEmptyDays = (startDay: number, firstDayOfWeek: number) =>
   Array.from(
@@ -25,6 +22,13 @@ const getPrevMonthEmptyDays = (startDay: number, firstDayOfWeek: number) =>
         : 6 - firstDayOfWeek + startDay + 1,
     ).keys(),
   ).map(() => null);
+
+interface GetDaysParams {
+  year: number;
+  month: number;
+  firstDayOfWeek: FirstDayOfWeek;
+  dayLabelFormat?: (date: Date) => string;
+}
 
 export const getDays = ({
   month,
@@ -59,4 +63,27 @@ export const getWeekdayLabels = (
   });
 
   return weekdays.map(weekdayLabelFormat);
+};
+
+interface IsDisabledProps {
+  date: Date;
+  minDate?: Date;
+  maxDate?: Date;
+  unavailableDates: Date[];
+}
+
+export const isInUnavailableDates = (date: Date, unavailableDates: Date[]) =>
+  unavailableDates.some((unavailableDate) => isSameDay(unavailableDate, date));
+
+export const isDisabled = ({
+  date,
+  minDate,
+  maxDate,
+  unavailableDates,
+}: IsDisabledProps) => {
+  if (minDate && isBefore(date, minDate)) return true;
+
+  if (maxDate && isAfter(date, maxDate)) return true;
+
+  return isInUnavailableDates(date, unavailableDates);
 };
