@@ -7,7 +7,7 @@ const getMonthByDate = (base: Date): Month => {
   return { date, month: getMonth(date), year: getYear(date) };
 };
 
-export const getInitialActiveMonths = (
+export const getInitialActivatedMonths = (
   monthsCount: number,
   base: Date | null,
 ): Month[] => {
@@ -18,10 +18,9 @@ export const getInitialActiveMonths = (
     return [firstMonth];
   }
 
-  const result = Array.from(
-    { length: monthsCount - 1 },
-    (_, i) => i + 1,
-  ).reduce<Month[]>(
+  return Array.from({ length: monthsCount - 1 }, (_, i) => i + 1).reduce<
+    Month[]
+  >(
     (total, index) => {
       const nextMonth = addMonths(date, index);
       total.push(getMonthByDate(nextMonth));
@@ -30,6 +29,10 @@ export const getInitialActiveMonths = (
     },
     [firstMonth],
   );
-
-  return result;
 };
+
+export const getNewActivatedMonths = (
+  activatedMonths: Month[],
+  step: number,
+): Month[] =>
+  activatedMonths.map((month) => getMonthByDate(addMonths(month.date, step)));
