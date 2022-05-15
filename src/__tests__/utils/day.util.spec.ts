@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
-import { getDays } from '../../utils/day.util';
+import { getDays, getWeekdayLabels } from '../../utils/day.util';
 
 describe('Day util', () => {
   describe('getDays', () => {
-    it('should return days with previous month days', () => {
+    it('should return days with previous month empty days', () => {
       // given
       const month = 0;
       const year = 2020;
@@ -35,6 +35,54 @@ describe('Day util', () => {
 
       // then
       expect(result[3]?.label).toEqual('01일');
+    });
+  });
+
+  describe('getWeekdayLabels', () => {
+    it('should return weekday labels', () => {
+      // given
+      const firstDayOfWeek = 0;
+
+      // when
+      const result = getWeekdayLabels(firstDayOfWeek);
+
+      // then
+      const expected = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+      expect(result).toEqual(expected);
+    });
+
+    it('should return weekday labels by firstDayOfWeek', () => {
+      // given
+      const firstDayOfWeek = 2;
+
+      // when
+      const result = getWeekdayLabels(firstDayOfWeek);
+
+      // then
+      const expected = ['Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo'];
+      expect(result).toEqual(expected);
+    });
+
+    it('should return weekday labels with weekday format', () => {
+      // given
+      const firstDayOfWeek = 0;
+
+      // when
+      const result = getWeekdayLabels(firstDayOfWeek, (date: Date) =>
+        format(date, 'iiii'),
+      );
+
+      // then
+      const expected = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ];
+      expect(result).toEqual(expected);
     });
   });
 });

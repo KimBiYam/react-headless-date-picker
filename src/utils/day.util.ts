@@ -1,9 +1,12 @@
 import {
+  addDays,
   eachDayOfInterval,
   endOfMonth,
+  endOfWeek,
   format,
   getDay,
   startOfMonth,
+  startOfWeek,
 } from 'date-fns';
 import { Day, FirstDayOfWeek } from '../types/date.types';
 
@@ -14,7 +17,7 @@ interface GetDaysParams {
   dayLabelFormat?: (date: Date) => string;
 }
 
-const getPrevMonthDays = (startDay: number, firstDayOfWeek: number) =>
+const getPrevMonthEmptyDays = (startDay: number, firstDayOfWeek: number) =>
   Array.from(
     Array(
       startDay >= firstDayOfWeek
@@ -35,7 +38,7 @@ export const getDays = ({
   const startDay = getDay(start);
   const end = endOfMonth(base);
 
-  const prevMonthDays = getPrevMonthDays(startDay, firstDayOfWeek);
+  const prevMonthDays = getPrevMonthEmptyDays(startDay, firstDayOfWeek);
 
   const currentMonthDays = eachDayOfInterval({ start, end }).map((date) => ({
     date,
@@ -43,4 +46,17 @@ export const getDays = ({
   }));
 
   return [...prevMonthDays, ...currentMonthDays];
+};
+
+export const getWeekdayLabels = (
+  firstDayOfWeek: number,
+  weekdayLabelFormat = (date: Date) => format(date, 'iiiiii'),
+) => {
+  const now = new Date();
+  const weekdays = eachDayOfInterval({
+    start: addDays(startOfWeek(now), firstDayOfWeek),
+    end: addDays(endOfWeek(now), firstDayOfWeek),
+  });
+
+  return weekdays.map(weekdayLabelFormat);
 };
