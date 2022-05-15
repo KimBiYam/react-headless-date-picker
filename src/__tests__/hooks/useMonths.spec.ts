@@ -6,8 +6,15 @@ describe('useMonths', () => {
   const setup = ({
     selectedDate = null,
     monthsCount = 1,
+    firstDayOfWeek = 0,
   }: Partial<UseMonthsProps>) =>
-    renderHook(() => useMonths({ selectedDate, monthsCount }));
+    renderHook(() =>
+      useMonths({
+        selectedDate,
+        monthsCount,
+        firstDayOfWeek,
+      }),
+    );
 
   describe('initialState', () => {
     it('should return initial activatedMonths by current date', () => {

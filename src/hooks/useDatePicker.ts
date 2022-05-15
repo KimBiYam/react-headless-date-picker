@@ -26,21 +26,20 @@ export const useDatePicker = ({
   dayLabelFormat,
   weekdayLabelFormat,
 }: UseDatePickerProps) => {
-  const { activatedMonths, goToDate, goToNextMonth, goToPreviousMonth } =
-    useMonths({ monthsCount, selectedDate });
-
-  const monthDays = useMemo(
-    () =>
-      activatedMonths.map(({ month, year }) =>
-        getDays({ month, year, dayLabelFormat, firstDayOfWeek }),
-      ),
-    [activatedMonths],
-  );
-
-  const weekdayLabels = useMemo(
-    () => getWeekdayLabels(firstDayOfWeek, weekdayLabelFormat),
-    [firstDayOfWeek, weekdayLabelFormat],
-  );
+  const {
+    activatedMonths,
+    goToDate,
+    goToNextMonth,
+    goToPreviousMonth,
+    monthDays,
+    weekdayLabels,
+  } = useMonths({
+    monthsCount,
+    selectedDate,
+    firstDayOfWeek,
+    dayLabelFormat,
+    weekdayLabelFormat,
+  });
 
   return {
     activatedMonths,
