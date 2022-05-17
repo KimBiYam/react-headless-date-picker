@@ -1,14 +1,21 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useDatePicker, UseDatePickerProps } from '../../hooks';
+import {
+  DatePickerFocus,
+  useDatePicker,
+  UseDatePickerProps,
+} from '../../hooks';
 
 describe('useDatePicker', () => {
   const onDateChange = jest.fn();
+  const focus: DatePickerFocus = null;
 
   const setup = ({
     selectedDate = null,
     ...rest
   }: Partial<UseDatePickerProps>) =>
-    renderHook(() => useDatePicker({ selectedDate, onDateChange, ...rest }));
+    renderHook(() =>
+      useDatePicker({ selectedDate, onDateChange, focus, ...rest }),
+    );
 
   describe('initial state', () => {
     it('should return activatedMonths', () => {
@@ -32,7 +39,7 @@ describe('useDatePicker', () => {
       });
 
       // then
-      expect(onDateChange).toBeCalledWith(date);
+      expect(onDateChange).toBeCalledWith({ date, focus: null });
     });
   });
 });

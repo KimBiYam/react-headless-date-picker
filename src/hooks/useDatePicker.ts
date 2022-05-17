@@ -1,11 +1,16 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { FirstDayOfWeek } from '../types/date.types';
 import { isDisabled } from '../utils/day.util';
 import { useMonths } from './useMonths';
 
+export type DatePickerFocus = 'date' | null;
+
+export type DatePickerState = { date: Date | null; focus?: DatePickerFocus };
+
 export interface UseDatePickerProps {
   selectedDate: Date | null;
-  onDateChange: (date: Date | null) => void;
+  focus: DatePickerFocus;
+  onDateChange: (state: DatePickerState) => void;
   minDate?: Date;
   maxDate?: Date;
   monthsCount?: number;
@@ -17,6 +22,7 @@ export interface UseDatePickerProps {
 
 export const useDatePicker = ({
   selectedDate,
+  focus,
   onDateChange,
   minDate,
   maxDate,
@@ -42,7 +48,9 @@ export const useDatePicker = ({
   });
 
   const onDayClick = useCallback(
-    (date: Date) => onDateChange(date),
+    (date: Date) => {
+      onDateChange({ date, focus: null });
+    },
     [onDateChange],
   );
 
@@ -52,6 +60,7 @@ export const useDatePicker = ({
   );
 
   return {
+    focus,
     activatedMonths,
     goToPreviousMonth,
     goToNextMonth,
