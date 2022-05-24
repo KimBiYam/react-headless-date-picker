@@ -29,8 +29,7 @@ describe('useMonths', () => {
       // then
       const expected: Month = {
         date: systemDate,
-        month: systemDate.getMonth(),
-        year: systemDate.getFullYear(),
+        label: '2020-01',
       };
 
       expect(result.current.activatedMonths).toEqual([expected]);
@@ -43,7 +42,7 @@ describe('useMonths', () => {
       const { result } = setup({ selectedDate });
 
       // then
-      const expected: Month = { date: selectedDate, month: 0, year: 2020 };
+      const expected: Month = { date: selectedDate, label: '2020-01' };
 
       expect(result.current.activatedMonths).toEqual([expected]);
     });
@@ -60,12 +59,7 @@ describe('useMonths', () => {
       act(result.current.goToPreviousMonth);
 
       // then
-      expect(result.current.activatedMonths[0].month).toBe(
-        selectedDate.getMonth() - 1,
-      );
-      expect(result.current.activatedMonths[0].year).toBe(
-        selectedDate.getFullYear(),
-      );
+      expect(result.current.activatedMonths[0].label).toBe('2020-01');
     });
 
     it('should change active months to previous year months', () => {
@@ -78,10 +72,7 @@ describe('useMonths', () => {
       act(result.current.goToPreviousMonth);
 
       // then
-      expect(result.current.activatedMonths[0].month).toBe(11);
-      expect(result.current.activatedMonths[0].year).toBe(
-        selectedDate.getFullYear() - 1,
-      );
+      expect(result.current.activatedMonths[0].label).toBe('2019-12');
     });
   });
 
@@ -96,12 +87,7 @@ describe('useMonths', () => {
       act(result.current.goToNextMonth);
 
       // then
-      expect(result.current.activatedMonths[0].month).toBe(
-        selectedDate.getMonth() + 1,
-      );
-      expect(result.current.activatedMonths[0].year).toBe(
-        selectedDate.getFullYear(),
-      );
+      expect(result.current.activatedMonths[0].label).toBe('2020-03');
     });
 
     it('should change active months to next year months', () => {
@@ -114,10 +100,7 @@ describe('useMonths', () => {
       act(result.current.goToNextMonth);
 
       // then
-      expect(result.current.activatedMonths[0].month).toBe(0);
-      expect(result.current.activatedMonths[0].year).toBe(
-        selectedDate.getFullYear() + 1,
-      );
+      expect(result.current.activatedMonths[0].label).toBe('2021-01');
     });
   });
 });

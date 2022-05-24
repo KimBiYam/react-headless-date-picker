@@ -9,7 +9,6 @@ import {
   startOfWeek,
   isAfter,
   isBefore,
-  startOfDay,
   isSameDay,
 } from 'date-fns';
 import { Day, FirstDayOfWeek } from '../types/date.types';
@@ -24,23 +23,19 @@ const getPrevMonthEmptyDays = (startDay: number, firstDayOfWeek: number) =>
   ).map(() => null);
 
 interface GetDaysParams {
-  year: number;
-  month: number;
+  date: Date;
   firstDayOfWeek: FirstDayOfWeek;
   dayLabelFormat?: (date: Date) => string;
 }
 
 export const getDays = ({
-  month,
-  year,
+  date,
   firstDayOfWeek,
   dayLabelFormat = (date: Date) => format(date, 'dd'),
 }: GetDaysParams): (null | Day)[] => {
-  const base = new Date(year, month);
-
-  const start = startOfMonth(base);
+  const start = startOfMonth(date);
   const startDay = getDay(start);
-  const end = endOfMonth(base);
+  const end = endOfMonth(date);
 
   const prevMonthDays = getPrevMonthEmptyDays(startDay, firstDayOfWeek);
 

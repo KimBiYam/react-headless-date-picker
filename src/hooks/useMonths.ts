@@ -9,6 +9,7 @@ import {
 export interface UseMonthsProps {
   monthsCount: number;
   selectedDate: Date | null;
+  monthLabelFormat?: (date: Date) => string;
   dayLabelFormat?: (date: Date) => string;
   weekdayLabelFormat?: (date: Date) => string;
   firstDayOfWeek: FirstDayOfWeek;
@@ -27,8 +28,8 @@ export const useMonths = ({
 
   const monthDays = useMemo(
     () =>
-      activatedMonths.map(({ month, year }) =>
-        getDays({ month, year, dayLabelFormat, firstDayOfWeek }),
+      activatedMonths.map(({ date }) =>
+        getDays({ date, dayLabelFormat, firstDayOfWeek }),
       ),
     [activatedMonths],
   );

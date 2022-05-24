@@ -22,23 +22,21 @@ describe('Month util', () => {
 
       // then
       expect(result[0].date).toEqual(systemDate);
-      expect(result[0].month).toEqual(systemDate.getMonth());
-      expect(result[0].year).toEqual(systemDate.getFullYear());
+      expect(result[0].label).toEqual('2020-01');
     });
 
     it('should return activated months by base date', () => {
       // given
-      const base = new Date('2022/03/15');
+      const base = new Date('2020/03/15');
 
       // when
       const result = getInitialActivatedMonths(1, base);
 
       // then
-      const expected = new Date('2022/03/01');
+      const expected = new Date('2020/03/01');
 
       expect(result[0].date).toEqual(expected);
-      expect(result[0].month).toEqual(base.getMonth());
-      expect(result[0].year).toEqual(base.getFullYear());
+      expect(result[0].label).toEqual('2020-03');
     });
 
     it('should return activated months by numberOfMonths argument', () => {
@@ -54,7 +52,7 @@ describe('Month util', () => {
 
       // then
       expect(result.length).toBe(2);
-      expect(result[1].month).toBe(systemDate.getMonth() + 1);
+      expect(result[1].label).toEqual('2020-02');
     });
   });
 
@@ -66,8 +64,7 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date,
-          month: date.getMonth(),
-          year: date.getFullYear(),
+          label: '2020-03',
         },
       ];
       const step = 1;
@@ -76,8 +73,7 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(date.getMonth() + 1);
-      expect(result[0].year).toBe(date.getFullYear());
+      expect(result[0].label).toBe('2020-04');
     });
 
     it('should return previous activated months', () => {
@@ -87,8 +83,7 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date,
-          month: date.getMonth(),
-          year: date.getFullYear(),
+          label: '2020-03',
         },
       ];
       const step = -1;
@@ -97,8 +92,7 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(date.getMonth() - 1);
-      expect(result[0].year).toBe(date.getFullYear());
+      expect(result[0].label).toBe('2020-02');
     });
 
     it('should return previous year activated months', () => {
@@ -108,8 +102,7 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date,
-          month: date.getMonth(),
-          year: date.getFullYear(),
+          label: '2020-01',
         },
       ];
       const step = -1;
@@ -118,8 +111,7 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(11);
-      expect(result[0].year).toBe(2019);
+      expect(result[0].label).toBe('2019-12');
     });
 
     it('should return next year activated months', () => {
@@ -129,8 +121,7 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date,
-          month: date.getMonth(),
-          year: date.getFullYear(),
+          label: '2020-12',
         },
       ];
       const step = 1;
@@ -139,8 +130,7 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(0);
-      expect(result[0].year).toBe(2021);
+      expect(result[0].label).toBe('2021-01');
     });
 
     it('should return two activated months', () => {
@@ -151,13 +141,11 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date: firstMonth,
-          month: firstMonth.getMonth(),
-          year: firstMonth.getFullYear(),
+          label: '2020-01',
         },
         {
           date: secondMonth,
-          month: secondMonth.getMonth(),
-          year: secondMonth.getFullYear(),
+          label: '2020-02',
         },
       ];
       const step = 1;
@@ -166,10 +154,8 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(firstMonth.getMonth() + 1);
-      expect(result[0].year).toBe(firstMonth.getFullYear());
-      expect(result[1].month).toBe(firstMonth.getMonth() + 2);
-      expect(result[1].year).toBe(firstMonth.getFullYear());
+      expect(result[0].label).toBe('2020-02');
+      expect(result[1].label).toBe('2020-03');
     });
 
     it('should return next year months', () => {
@@ -179,8 +165,7 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date,
-          month: date.getMonth(),
-          year: date.getFullYear(),
+          label: '2020-01',
         },
       ];
       const step = 12;
@@ -189,8 +174,7 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(0);
-      expect(result[0].year).toBe(2021);
+      expect(result[0].label).toBe('2021-01');
     });
 
     it('should return previous year months', () => {
@@ -200,8 +184,7 @@ describe('Month util', () => {
       const activatedMonths: Month[] = [
         {
           date,
-          month: date.getMonth(),
-          year: date.getFullYear(),
+          label: '2020-01',
         },
       ];
       const step = -12;
@@ -210,8 +193,7 @@ describe('Month util', () => {
       const result = getNewActivatedMonths(activatedMonths, step);
 
       // then
-      expect(result[0].month).toBe(0);
-      expect(result[0].year).toBe(2019);
+      expect(result[0].label).toBe('2019-01');
     });
   });
 });

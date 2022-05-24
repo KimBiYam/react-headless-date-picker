@@ -5,12 +5,11 @@ describe('Day util', () => {
   describe('getDays', () => {
     it('should return days with previous month empty days', () => {
       // given
-      const month = 0;
-      const year = 2020;
+      const date = new Date(2020, 0);
       const firstDayOfWeek = 0;
 
       // when
-      const result = getDays({ month, year, firstDayOfWeek });
+      const result = getDays({ date, firstDayOfWeek });
 
       // then
       expect(result[0]).toBeNull();
@@ -21,14 +20,12 @@ describe('Day util', () => {
 
     it('should return days with label format', () => {
       // given
-      const month = 0;
-      const year = 2020;
+      const date = new Date(2020, 0);
       const firstDayOfWeek = 0;
 
       // when
       const result = getDays({
-        month,
-        year,
+        date,
         firstDayOfWeek,
         dayLabelFormat: (date: Date) => format(date, 'dd일'),
       });

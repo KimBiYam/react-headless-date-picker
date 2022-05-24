@@ -1,18 +1,22 @@
-import { startOfMonth, getMonth, getYear, addMonths } from 'date-fns';
+import { startOfMonth, addMonths, format } from 'date-fns';
 import { Month } from '../types/date.types';
 
-const getMonthByDate = (base: Date): Month => {
+const getMonthByDate = (
+  base: Date,
+  monthLabelFormat: (date: Date) => string,
+): Month => {
   const date = startOfMonth(base);
 
-  return { date, month: getMonth(date), year: getYear(date) };
+  return { date, label: monthLabelFormat(date) };
 };
 
 export const getInitialActivatedMonths = (
   monthsCount: number,
   base: Date | null,
+  monthLabelFormat = (date: Date) => format(date, 'yyyy-MM'),
 ): Month[] => {
   const date = base ?? new Date();
-  const firstMonth = getMonthByDate(date);
+  const firstMonth = getMonthByDate(date, monthLabelFormat);
 
   if (monthsCount <= 1) {
     return [firstMonth];
@@ -23,7 +27,7 @@ export const getInitialActivatedMonths = (
   >(
     (total, index) => {
       const nextMonth = addMonths(date, index);
-      total.push(getMonthByDate(nextMonth));
+      total.push(getMonthByDate(nextMonth, monthLabelFormat));
 
       return total;
     },
@@ -34,5 +38,8 @@ export const getInitialActivatedMonths = (
 export const getNewActivatedMonths = (
   activatedMonths: Month[],
   step: number,
+  monthLabelFormat = (date: Date) => format(date, 'yyyy-MM'),
 ): Month[] =>
-  activatedMonths.map((month) => getMonthByDate(addMonths(month.date, step)));
+  activatedMonths.map((month) =>
+    getMonthByDate(addMonths(month.date, step), monthLabelFormat),
+  );
