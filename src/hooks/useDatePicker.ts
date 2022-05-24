@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { FirstDayOfWeek } from '../types/date.types';
 import { isDisabled } from '../utils/day.util';
 import { useMonths } from './useMonths';
